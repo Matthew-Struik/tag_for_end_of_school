@@ -1,0 +1,88 @@
+[gd_scene format=3 uid="uid://dnq5j36cvqt1s"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_kunxt"]
+size = Vector3(5, 1, 5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_27a8l"]
+size = Vector3(5, 1, 5)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_j0o1r"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_tt30a"]
+sky_material = SubResource("ProceduralSkyMaterial_j0o1r")
+
+[sub_resource type="Environment" id="Environment_1ey7h"]
+background_mode = 2
+sky = SubResource("Sky_tt30a")
+glow_enabled = true
+
+[sub_resource type="GDScript" id="GDScript_27a8l"]
+script/source = "extends CharacterBody3D
+
+
+const SPEED = 5.0
+const JUMP_VELOCITY = 4.5
+
+
+func _physics_process(delta: float) -> void:
+	# Add the gravity.
+	if not is_on_floor():
+		velocity += get_gravity() * delta
+
+	# Handle jump.
+	if Input.is_action_just_pressed(\"ui_accept\") and is_on_floor():
+		velocity.y = JUMP_VELOCITY
+
+	# Get the input direction and handle the movement/deceleration.
+	# As good practice, you should replace UI actions with custom gameplay actions.
+	var input_dir := Input.get_vector(\"ui_left\", \"ui_right\", \"ui_up\", \"ui_down\")
+	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	if direction:
+		velocity.x = direction.x * SPEED
+		velocity.z = direction.z * SPEED
+	else:
+		velocity.x = move_toward(velocity.x, 0, SPEED)
+		velocity.z = move_toward(velocity.z, 0, SPEED)
+
+	move_and_slide()
+"
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_27a8l"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_27a8l"]
+
+[node name="Node3D" type="Node3D" unique_id=1205575854]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2125394130]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+mesh = SubResource("BoxMesh_kunxt")
+
+[node name="Area3D" type="Area3D" parent="MeshInstance3D" unique_id=1631671482]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+disable_mode = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/Area3D" unique_id=1002135070]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+shape = SubResource("BoxShape3D_27a8l")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1565612351]
+environment = SubResource("Environment_1ey7h")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=590057468]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1359984101]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = SubResource("GDScript_27a8l")
+
+[node name="Camera3D" type="Camera3D" parent="CharacterBody3D" unique_id=1546662930]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5456855, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=1958800724]
+shape = SubResource("CapsuleShape3D_27a8l")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D" unique_id=1531991140]
+mesh = SubResource("CapsuleMesh_27a8l")
