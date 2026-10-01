@@ -1,9 +1,13 @@
 [gd_scene format=3 uid="uid://dnq5j36cvqt1s"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_kunxt"]
-size = Vector3(5, 1, 5)
+[ext_resource type="Script" uid="uid://cbb4tqrgro6fa" path="res://network_manager.gd" id="1_tt30a"]
+[ext_resource type="Script" uid="uid://bpc1all0vukow" path="res://canvas_layer.gd" id="2_1ey7h"]
+[ext_resource type="PackedScene" uid="uid://bjl4kcbkh6mwu" path="res://player_scene.tscn" id="2_o1ld7"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_27a8l"]
+[sub_resource type="BoxMesh" id="BoxMesh_kunxt"]
+size = Vector3(20, 0.5, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_h7n1j"]
 size = Vector3(5, 1, 5)
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_j0o1r"]
@@ -18,54 +22,17 @@ background_mode = 2
 sky = SubResource("Sky_tt30a")
 glow_enabled = true
 
-[sub_resource type="GDScript" id="GDScript_27a8l"]
-script/source = "extends CharacterBody3D
-
-
-const SPEED = 5.0
-const JUMP_VELOCITY = 4.5
-
-
-func _physics_process(delta: float) -> void:
-	# Add the gravity.
-	if not is_on_floor():
-		velocity += get_gravity() * delta
-
-	# Handle jump.
-	if Input.is_action_just_pressed(\"ui_accept\") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
-
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	var input_dir := Input.get_vector(\"ui_left\", \"ui_right\", \"ui_up\", \"ui_down\")
-	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	if direction:
-		velocity.x = direction.x * SPEED
-		velocity.z = direction.z * SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-		velocity.z = move_toward(velocity.z, 0, SPEED)
-
-	move_and_slide()
-"
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_27a8l"]
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_27a8l"]
-
 [node name="Node3D" type="Node3D" unique_id=1205575854]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2125394130]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 mesh = SubResource("BoxMesh_kunxt")
 
-[node name="Area3D" type="Area3D" parent="MeshInstance3D" unique_id=1631671482]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-disable_mode = 2
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D" unique_id=1331578910]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/Area3D" unique_id=1002135070]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
-shape = SubResource("BoxShape3D_27a8l")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D" unique_id=1324941699]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, -1.7388437, 0)
+shape = SubResource("BoxShape3D_h7n1j")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1565612351]
 environment = SubResource("Environment_1ey7h")
@@ -74,15 +41,49 @@ environment = SubResource("Environment_1ey7h")
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
 shadow_enabled = true
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1359984101]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-script = SubResource("GDScript_27a8l")
+[node name="NetworkManager" type="Node3D" parent="." unique_id=545115362]
+script = ExtResource("1_tt30a")
+player_scene = ExtResource("2_o1ld7")
 
-[node name="Camera3D" type="Camera3D" parent="CharacterBody3D" unique_id=1546662930]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5456855, 0)
+[node name="CanvasLayer" type="CanvasLayer" parent="NetworkManager" unique_id=1202041563]
+script = ExtResource("2_1ey7h")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=1958800724]
-shape = SubResource("CapsuleShape3D_27a8l")
+[node name="HostButton" type="Button" parent="NetworkManager/CanvasLayer" unique_id=1232893446]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -64.0
+offset_right = 64.0
+offset_bottom = 31.0
+grow_horizontal = 2
+text = "host"
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D" unique_id=1531991140]
-mesh = SubResource("CapsuleMesh_27a8l")
+[node name="IPInput" type="LineEdit" parent="NetworkManager/CanvasLayer" unique_id=264739000]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -237.0
+offset_right = 64.0
+offset_bottom = -197.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="JoinButton" type="Button" parent="NetworkManager/CanvasLayer" unique_id=803547757]
+offset_left = 512.0
+offset_top = 144.0
+offset_right = 640.0
+offset_bottom = 176.0
+text = "join"
+
+[node name="Label" type="Label" parent="NetworkManager/CanvasLayer" unique_id=1621587566]
+anchors_preset = -1
+anchor_right = 0.028
+anchor_bottom = 0.012
+offset_left = 512.0
+offset_top = 64.0
+offset_right = 607.744
+offset_bottom = 79.224
+text = "       IP Address"
