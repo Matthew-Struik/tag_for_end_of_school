@@ -1,6 +1,7 @@
 extends CharacterBody3D
 
 const SPEED := 5.0
+const SPRINT_SPEED := 9.0
 const JUMP_VELOCITY := 4.5
 const MOUSE_SENSITIVITY := 0.003
 const TAG_DISTANCE := 2.5
@@ -78,14 +79,20 @@ func _physics_process(delta: float) -> void:
 
 		input_dir = input_dir.normalized()
 
+		# Sprint while holding Shift.
+		var current_speed := SPEED
+
+		if Input.is_key_pressed(KEY_SHIFT):
+			current_speed = SPRINT_SPEED
+
 		var direction := (
 			transform.basis *
 			Vector3(input_dir.x, 0.0, input_dir.y)
 		).normalized()
 
 		if direction:
-			velocity.x = direction.x * SPEED
-			velocity.z = direction.z * SPEED
+			velocity.x = direction.x * current_speed
+			velocity.z = direction.z * current_speed
 		else:
 			velocity.x = move_toward(
 				velocity.x,

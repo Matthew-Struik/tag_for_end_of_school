@@ -1,7 +1,7 @@
 extends Node
 
 const PORT := 7777
-const MAX_PLAYERS := 20
+const MAX_PLAYERS := 30
 
 const NORMAL_MODE := 0
 const INFECTION_MODE := 1
@@ -263,21 +263,15 @@ func _spawn_player(id: int) -> void:
 
 	var spawn_number: int = abs(id) % 20
 
-	# X position
-	var spawn_x: float = (
-		float(spawn_number % 5) * 6.0 - 12.0
-	)
-
-	# IMPORTANT:
-	# Use 5.0 instead of 5 to avoid integer division warning.
-	var spawn_z: float = (
-		float(spawn_number) / 5.0 * 6.0 - 12.0
-	)
+	# Place players evenly around a ring in the open area, clear of the
+	# central platform, cover walls and pillars.
+	var angle: float = TAU * float(spawn_number) / 20.0
+	var spawn_radius: float = 26.0
 
 	player.global_position = Vector3(
-		spawn_x,
-		1.0,
-		spawn_z
+		cos(angle) * spawn_radius,
+		1.5,
+		sin(angle) * spawn_radius
 	)
 
 	players[id] = player
@@ -434,4 +428,4 @@ func game_over() -> void:
 		if player.has_method("set_game_started"):
 			player.set_game_started(false)
 
-	print("Infection Game Over")
+	print("Round Over")
