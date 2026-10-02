@@ -13,7 +13,7 @@ config_version=5
 config/name="Nieuw gameproject"
 run/main_scene="uid://dnq5j36cvqt1s"
 config/features=PackedStringArray("4.7", "Forward Plus")
-config/icon="https://chatgpt.com/s/m_6abd068a1a58819193b6cc69e360cdee"
+config/icon="uid://cvbjwfeatf64j"
 
 [display]
 

@@ -2,13 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cbb4tqrgro6fa" path="res://network_manager.gd" id="1_tt30a"]
 [ext_resource type="Script" uid="uid://bpc1all0vukow" path="res://canvas_layer.gd" id="2_1ey7h"]
-[ext_resource type="PackedScene" uid="uid://bjl4kcbkh6mwu" path="res://player_scene.tscn" id="2_o1ld7"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_kunxt"]
-size = Vector3(20, 0.5, 20)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_h7n1j"]
-size = Vector3(5, 1, 5)
+[ext_resource type="PackedScene" uid="uid://drj2adr8vsw33" path="res://Player.tscn" id="2_o1ld7"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_j0o1r"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -22,7 +16,19 @@ background_mode = 2
 sky = SubResource("Sky_tt30a")
 glow_enabled = true
 
+[sub_resource type="BoxMesh" id="BoxMesh_kunxt"]
+size = Vector3(200, 0.5, 200)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_h7n1j"]
+
 [node name="Node3D" type="Node3D" unique_id=1205575854]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=590057468]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1565612351]
+environment = SubResource("Environment_1ey7h")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2125394130]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
@@ -31,15 +37,8 @@ mesh = SubResource("BoxMesh_kunxt")
 [node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D" unique_id=1331578910]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D" unique_id=1324941699]
-transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, -1.7388437, 0)
+transform = Transform3D(200, 0, 0, 0, 200, 0, 0, 0, 200, 0, -99.738846, 0)
 shape = SubResource("BoxShape3D_h7n1j")
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1565612351]
-environment = SubResource("Environment_1ey7h")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=590057468]
-transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
-shadow_enabled = true
 
 [node name="NetworkManager" type="Node3D" parent="." unique_id=545115362]
 script = ExtResource("1_tt30a")
@@ -77,6 +76,18 @@ offset_top = 144.0
 offset_right = 640.0
 offset_bottom = 176.0
 text = "join"
+
+[node name="GameMode" type="OptionButton" parent="NetworkManager/CanvasLayer" unique_id=593576704]
+offset_left = 64.0
+offset_right = 128.0
+offset_bottom = 20.0
+
+[node name="StartButton" type="Button" parent="NetworkManager/CanvasLayer" unique_id=155482176]
+offset_top = 72.0
+offset_right = 192.0
+offset_bottom = 126.0
+text = "voor host 
+start button"
 
 [node name="Label" type="Label" parent="NetworkManager/CanvasLayer" unique_id=1621587566]
 anchors_preset = -1
