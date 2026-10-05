@@ -144,3 +144,13 @@ func game_over() -> void:
 	game_mode.disabled = true
 
 	start_button.visible = true
+
+
+# =========================================================
+# VISIBILITY
+# =========================================================
+
+func _process(_delta: float) -> void:
+	# Hide the lobby text and buttons while a match is running so the
+	# gameplay view stays clean. They reappear when the round ends.
+	visible = not network_manager.game_started
