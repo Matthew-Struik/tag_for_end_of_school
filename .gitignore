@@ -1,0 +1,112 @@
+# ============================================
+
+# Godot
+
+# ============================================
+
+# Godot 4 generated/imported data
+
+.godot/
+
+# Godot 3 generated/imported data
+
+.import/
+
+# Exported builds
+
+/export/
+/build/
+
+# ============================================
+
+# Third-party addons
+
+# ============================================
+
+# Ignore downloaded/third-party Godot addons
+
+# Remove this line if you want to commit your addons.
+
+/nieuw-gameproject/addons/
+
+# ============================================
+
+# Operating system files
+
+# ============================================
+
+# Windows
+
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+Desktop.ini
+
+# macOS
+
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux
+
+*~
+.directory
+
+# ============================================
+
+# IDE / Editor files
+
+# ============================================
+
+# Visual Studio Code
+
+.vscode/
+
+# JetBrains
+
+.idea/
+
+# Visual Studio
+
+.vs/
+
+# ============================================
+
+# Temporary / backup files
+
+# ============================================
+
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*.orig
+
+# ============================================
+
+# Logs
+
+# ============================================
+
+*.log
+
+# ============================================
+
+# Environment / secrets
+
+# ============================================
+
+.env
+.env.*
+!.env.example
+
+# ============================================
+
+# Godot editor backups
+
+# ============================================
+
+.godot/
+.editor/
