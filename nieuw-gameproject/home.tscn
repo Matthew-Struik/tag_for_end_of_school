@@ -6,6 +6,8 @@
 [ext_resource type="Script" uid="uid://bi1ii0l2vkvlo" path="res://map.gd" id="3_map"]
 [ext_resource type="Script" uid="uid://dt74papwfyn6s" path="res://tutorial.gd" id="4_tut"]
 [ext_resource type="Script" uid="uid://4p0eb404xkrc" path="res://round_timer.gd" id="5_hud"]
+[ext_resource type="Script" uid="uid://naa6ao3m1wvd" path="res://escape_menu.gd" id="6_escape"]
+[ext_resource type="PackedScene" path="res://npc_scene.tscn" id="7_npc"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_j0o1r"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -46,6 +48,7 @@ script = ExtResource("3_map")
 [node name="NetworkManager" type="Node3D" parent="." unique_id=545115362]
 script = ExtResource("1_tt30a")
 player_scene = ExtResource("2_o1ld7")
+npc_scene = ExtResource("7_npc")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="NetworkManager" unique_id=1202041563]
 script = ExtResource("2_1ey7h")
@@ -102,6 +105,35 @@ offset_right = 607.744
 offset_bottom = 79.224
 text = "       IP Address"
 
+[node name="CodeInput" type="LineEdit" parent="NetworkManager/CanvasLayer" unique_id=666666001]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -316.0
+offset_top = -31.0
+offset_right = -152.0
+grow_horizontal = 0
+grow_vertical = 0
+placeholder_text = "geheime code..."
+
+[node name="CodeButton" type="Button" parent="NetworkManager/CanvasLayer" unique_id=666666002]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = -31.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "go
+"
+
+[node name="EscapeMenu" type="CanvasLayer" parent="NetworkManager" unique_id=600600600]
+script = ExtResource("6_escape")
+
 [node name="Tutorial" type="CanvasLayer" parent="." unique_id=300300300]
 layer = 10
 script = ExtResource("4_tut")
@@ -127,25 +159,26 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_tut")
 
 [node name="Margin" type="MarginContainer" parent="Tutorial/CenterContainer/Panel" unique_id=300300304]
 layout_mode = 2
-theme_override_constants/margin_left = 36
-theme_override_constants/margin_top = 28
-theme_override_constants/margin_right = 36
-theme_override_constants/margin_bottom = 28
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 14
 
 [node name="VBox" type="VBoxContainer" parent="Tutorial/CenterContainer/Panel/Margin" unique_id=300300305]
-custom_minimum_size = Vector2(500, 0)
+custom_minimum_size = Vector2(340, 0)
 layout_mode = 2
-theme_override_constants/separation = 18
+theme_override_constants/separation = 8
 
 [node name="Title" type="Label" parent="Tutorial/CenterContainer/Panel/Margin/VBox" unique_id=300300306]
 layout_mode = 2
-theme_override_font_sizes/font_size = 30
+theme_override_font_sizes/font_size = 22
 text = "Tikkertje — Hoe te spelen"
 horizontal_alignment = 1
 
 [node name="Info" type="Label" parent="Tutorial/CenterContainer/Panel/Margin/VBox" unique_id=300300307]
 layout_mode = 2
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 14
+custom_minimum_size = Vector2(340, 0)
 text = "Bewegen:   W  A  S  D
 Kijken:   Muis
 Springen:   Spatie
@@ -161,7 +194,7 @@ autowrap_mode = 3
 [node name="BeginButton" type="Button" parent="Tutorial/CenterContainer/Panel/Margin/VBox" unique_id=300300308]
 custom_minimum_size = Vector2(0, 46)
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 16
 text = "Beginnen"
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=400400400]
@@ -200,6 +233,22 @@ text = "Ronde voorbij!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="RoleLabel" type="Label" parent="HUD" unique_id=400400409]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -180.0
+offset_top = 24.0
+offset_right = 180.0
+offset_bottom = 66.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.35, 0.65, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 32
+text = "SURVIVOR"
+horizontal_alignment = 1
+
 [node name="PlayersLabel" type="Label" parent="HUD" unique_id=400400403]
 anchors_preset = 1
 anchor_left = 1.0
@@ -215,3 +264,71 @@ theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 24
 text = "Spelers: 0"
 horizontal_alignment = 2
+
+[node name="Crosshair" type="Control" parent="HUD" unique_id=400400404]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="H" type="ColorRect" parent="HUD/Crosshair" unique_id=400400405]
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -10.0
+offset_top = -1.5
+offset_right = 10.0
+offset_bottom = 1.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0.85)
+
+[node name="V" type="ColorRect" parent="HUD/Crosshair" unique_id=400400406]
+layout_mode = 0
+
+[node name="GunHint" type="Label" parent="HUD" unique_id=400400407]
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -260.0
+offset_top = -78.0
+offset_right = 260.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 26
+text = "FUN MODE — left click to shoot"
+horizontal_alignment = 1
+
+[node name="ModeHint" type="Label" parent="HUD" unique_id=400400408]
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -260.0
+offset_top = -78.0
+offset_right = 260.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 26
+text = "TAG MODE — press E to tag"
+horizontal_alignment = 1

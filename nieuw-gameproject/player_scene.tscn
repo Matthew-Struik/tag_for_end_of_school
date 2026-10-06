@@ -12,6 +12,11 @@ script = ExtResource("1_g662q")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1380734074]
 mesh = SubResource("CapsuleMesh_jyont")
 
+[node name="CameraVisual" type="MeshInstance3D" parent="." unique_id=1380734075]
+position = Vector3(0, 0.12, 0)
+scale = Vector3(0.78, 0.92, 0.78)
+mesh = SubResource("CapsuleMesh_jyont")
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1841862648]
 shape = SubResource("CapsuleShape3D_h7n1j")
 

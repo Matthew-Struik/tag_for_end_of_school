@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Nieuw gameproject"
+config/name="tag"
 run/main_scene="uid://dnq5j36cvqt1s"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="uid://cvbjwfeatf64j"
